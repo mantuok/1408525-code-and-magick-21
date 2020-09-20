@@ -84,13 +84,9 @@ window.renderStatistics = function (ctx, names, times) {
 
     const roundedTimes = Math.round(times[i]);
 
-    styleText(ctx);
+    // styleText(ctx);
 
-    ctx.fillText (
-      roundedTimes,
-      CLOUD_X + ( GAP * 5 ) + (( GAP * 5 ) + BAR_WIDTH ) * i,
-      CLOUD_Y + ( GAP * 7.5 )
-    );
+
 
     colorBar(ctx, names[i]);
 
@@ -104,6 +100,12 @@ window.renderStatistics = function (ctx, names, times) {
     );
 
     styleText(ctx);
+
+    ctx.fillText (
+      roundedTimes,
+      CLOUD_X + ( GAP * 5 ) + (( GAP * 5 ) + BAR_WIDTH ) * i,
+      CLOUD_Y + ( GAP * 7.5 ) + (BAR_HEIGHT - ((BAR_HEIGHT * times[i]) / maxTime) )
+    );
 
     ctx.fillText (
       names[i],
