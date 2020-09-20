@@ -1,3 +1,5 @@
+'use strict';
+
 const CLOUD_WIDTH = 420;
 const CLOUD_HEIGHT = 270;
 const CLOUD_X = 100;
@@ -9,14 +11,14 @@ const BAR_WIDTH = 40;
 const BAR_HEIGHT = 150;
 const COLUMN_GAP = 50;
 const colors = {
-  RED: 'rgba(255, 0, 0, 1)',
-  WHITE: 'rgba(255, 255, 255, 1)',
-  BLACK_TRANSPARENT: 'rgba(0, 0, 0, 0.7)',
-  BLACK: 'rgba(0, 0, 0, 1)'
+  RED: `rgba(255, 0, 0, 1)`,
+  WHITE: `rgba(255, 255, 255, 1)`,
+  BLACK_TRANSPARENT: `rgba(0, 0, 0, 0.7)`,
+  BLACK: `rgba(0, 0, 0, 1)`
 };
 const font = {
-  SIZE: '16px',
-  FAMILY: 'PT Mono',
+  SIZE: `16px`,
+  FAMILY: `PT Mono`,
 };
 const saturation = {
   MIN: 0,
@@ -31,19 +33,19 @@ const createCloud = function (ctx, xCoordinate, yCoordinate, color) {
 const styleText = function (ctx) {
   ctx.fillStyle = colors.BLACK;
   ctx.font = `${font.SIZE} ${font.FAMILY}`;
-  ctx.textBaseline = 'hanging';
-}
+  ctx.textBaseline = `hanging`;
+};
 
 const colorBar = function (ctx, name) {
   let blueColor = getRandomBlue();
-  ctx.fillStyle = (name === 'Вы') ? colors.RED : blueColor;
+  ctx.fillStyle = (name === `Вы`) ? colors.RED : blueColor;
 };
 
 const getRandomBlue = function () {
   let randomSaturation = Math.floor(Math.random() * (saturation.MAX - saturation.MIN)) + saturation.MIN;
   let randomBlue = `hsl(240, ${randomSaturation}%, 50%)`;
   return randomBlue;
-}
+};
 
 const getMaxTime = function (arr) {
   let maxElement = arr[0];
@@ -53,65 +55,65 @@ const getMaxTime = function (arr) {
     }
   }
   return maxElement;
-}
+};
 
 window.renderStatistics = function (ctx, names, times) {
 
   createCloud(
-    ctx,
-    CLOUD_X + CLOUD_Y,
-    CLOUD_Y + CLOUD_GAP,
-    colors.BLACK_TRANSPARENT
+      ctx,
+      CLOUD_X + CLOUD_GAP,
+      CLOUD_Y + CLOUD_GAP,
+      colors.BLACK_TRANSPARENT
   );
 
   createCloud(
-    ctx,
-    CLOUD_X,
-    CLOUD_Y,
-    colors.WHITE
+      ctx,
+      CLOUD_X,
+      CLOUD_Y,
+      colors.WHITE
   );
 
   styleText(ctx);
 
   ctx.fillText(
-    'Ура вы победили!',
-    CLOUD_X + GAP,
-    CLOUD_Y + GAP
+      `Ура вы победили!`,
+      CLOUD_X + GAP,
+      CLOUD_Y + GAP
   );
 
   ctx.fillText(
-    'Список результатов:',
-    CLOUD_X + GAP,
-    CLOUD_Y + FONT_GAP
+      `Список результатов:`,
+      CLOUD_X + GAP,
+      CLOUD_Y + FONT_GAP
   );
 
   for (let i = 0; i < names.length; i++) {
 
-    const roundedTimes = Math.round(times[i]);
-
-    colorBar(ctx, names[i]);
+    let roundedTimes = Math.round(times[i]);
 
     let maxTime = getMaxTime(times);
 
+    colorBar(ctx, names[i]);
+
     ctx.fillRect(
-      CLOUD_X + COLUMN_GAP + (COLUMN_GAP + BAR_WIDTH ) * i,
-      CLOUD_Y - ((BAR_HEIGHT * times[i]) / maxTime) + (GAP * 12),
-      BAR_WIDTH,
-      (BAR_HEIGHT * times[i]) / maxTime
+        CLOUD_X + COLUMN_GAP + (COLUMN_GAP + BAR_WIDTH) * i,
+        CLOUD_Y - ((BAR_HEIGHT * times[i]) / maxTime) + (GAP * 12),
+        BAR_WIDTH,
+        (BAR_HEIGHT * times[i]) / maxTime
     );
 
     styleText(ctx);
 
-    ctx.fillText (
-      roundedTimes,
-      CLOUD_X + COLUMN_GAP + (COLUMN_GAP + BAR_WIDTH ) * i,
-      CLOUD_Y + ( GAP * 3.5 ) + (BAR_HEIGHT - ((BAR_HEIGHT * times[i]) / maxTime) )
+    ctx.fillText(
+        roundedTimes,
+        CLOUD_X + COLUMN_GAP + (COLUMN_GAP + BAR_WIDTH) * i,
+        CLOUD_Y + (GAP * 3.5) + (BAR_HEIGHT - ((BAR_HEIGHT * times[i]) / maxTime))
     );
 
-    ctx.fillText (
-      names[i],
-      CLOUD_X + COLUMN_GAP + (COLUMN_GAP + BAR_WIDTH ) * i,
-      CLOUD_Y + ( GAP * 5  ) + BAR_HEIGHT
+    ctx.fillText(
+        names[i],
+        CLOUD_X + COLUMN_GAP + (COLUMN_GAP + BAR_WIDTH) * i,
+        CLOUD_Y + (GAP * 5) + BAR_HEIGHT
     );
-  };
+  }
 };
