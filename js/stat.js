@@ -31,11 +31,11 @@ const renderText = function (ctx, text, gapX, gapY) {
   ctx.font = `${FONT.SIZE} ${FONT.FAMILY}`;
   ctx.textBaseline = `hanging`;
   ctx.fillText(
-    text,
-    CLOUD_X + gapX,
-    CLOUD_Y + gapY
+      text,
+      CLOUD_X + gapX,
+      CLOUD_Y + gapY
   );
-}
+};
 
 const getBarColor = (name) => (name === `Вы`) ? Color.RED : getRandomBlue();
 
@@ -99,17 +99,17 @@ window.renderStatistics = function (ctx, names, times) {
     );
 
     renderText(
-      ctx,
-      roundedTimes,
-      COLUMN_GAP + (COLUMN_GAP + BAR_WIDTH) * i,
-      (GAP * 3.5) + (BAR_HEIGHT - ((BAR_HEIGHT * times[i]) / maxTime))
+        ctx,
+        roundedTimes,
+        COLUMN_GAP + (COLUMN_GAP + BAR_WIDTH) * i,
+        (GAP * 3.5) + (BAR_HEIGHT - ((BAR_HEIGHT * times[i]) / maxTime))
     );
 
     renderText(
-      ctx,
-      names[i],
-      COLUMN_GAP + (COLUMN_GAP + BAR_WIDTH) * i,
-      (GAP * 5) + BAR_HEIGHT
+        ctx,
+        names[i],
+        COLUMN_GAP + (COLUMN_GAP + BAR_WIDTH) * i,
+        (GAP * 5) + BAR_HEIGHT
     );
   }
 };
