@@ -10,42 +10,38 @@ const FONT_GAP = 40;
 const BAR_WIDTH = 40;
 const BAR_HEIGHT = 150;
 const COLUMN_GAP = 50;
-const colors = {
+const Color = {
   RED: `rgba(255, 0, 0, 1)`,
   WHITE: `rgba(255, 255, 255, 1)`,
   BLACK_TRANSPARENT: `rgba(0, 0, 0, 0.7)`,
   BLACK: `rgba(0, 0, 0, 1)`
 };
-const font = {
+const FONT = {
   SIZE: `16px`,
   FAMILY: `PT Mono`,
 };
-const saturation = {
-  MIN: 0,
-  MAX: 100
-};
 
-const createCloud = function (ctx, xCoordinate, yCoordinate, color) {
+const renderCloud = function (ctx, xCoordinate, yCoordinate, color) {
   ctx.fillStyle = color;
   ctx.fillRect(xCoordinate, yCoordinate, CLOUD_WIDTH, CLOUD_HEIGHT);
 };
 
-const styleText = function (ctx) {
-  ctx.fillStyle = colors.BLACK;
-  ctx.font = `${font.SIZE} ${font.FAMILY}`;
+const renderText = function (ctx, text, gapX, gapY) {
+  ctx.fillStyle = Color.BLACK;
+  ctx.font = `${FONT.SIZE} ${FONT.FAMILY}`;
   ctx.textBaseline = `hanging`;
-};
+  ctx.fillText(
+    text,
+    CLOUD_X + gapX,
+    CLOUD_Y + gapY
+  );
+}
 
-const colorBar = function (ctx, name) {
-  let blueColor = getRandomBlue();
-  ctx.fillStyle = (name === `Вы`) ? colors.RED : blueColor;
-};
+const getBarColor = (name) => (name === `Вы`) ? Color.RED : getRandomBlue();
 
-const getRandomBlue = function () {
-  let randomSaturation = Math.floor(Math.random() * (saturation.MAX - saturation.MIN)) + saturation.MIN;
-  let randomBlue = `hsl(240, ${randomSaturation}%, 50%)`;
-  return randomBlue;
-};
+const getRandomBlue = () => `hsl(240, ${getRandomNumber(0, 100)}%, 50%)`;
+
+const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
 const getMaxTime = function (arr) {
   let maxElement = arr[0];
@@ -59,41 +55,41 @@ const getMaxTime = function (arr) {
 
 window.renderStatistics = function (ctx, names, times) {
 
-  createCloud(
+  renderCloud(
       ctx,
       CLOUD_X + CLOUD_GAP,
       CLOUD_Y + CLOUD_GAP,
-      colors.BLACK_TRANSPARENT
+      Color.BLACK_TRANSPARENT
   );
 
-  createCloud(
+  renderCloud(
       ctx,
       CLOUD_X,
       CLOUD_Y,
-      colors.WHITE
+      Color.WHITE
   );
 
-  styleText(ctx);
-
-  ctx.fillText(
+  renderText(
+      ctx,
       `Ура вы победили!`,
-      CLOUD_X + GAP,
-      CLOUD_Y + GAP
+      GAP,
+      GAP
   );
 
-  ctx.fillText(
+  renderText(
+      ctx,
       `Список результатов:`,
-      CLOUD_X + GAP,
-      CLOUD_Y + FONT_GAP
+      GAP,
+      FONT_GAP
   );
+
+  const maxTime = getMaxTime(times);
 
   for (let i = 0; i < names.length; i++) {
 
-    let roundedTimes = Math.round(times[i]);
+    const roundedTimes = Math.round(times[i]);
 
-    let maxTime = getMaxTime(times);
-
-    colorBar(ctx, names[i]);
+    ctx.fillStyle = getBarColor(names[i]);
 
     ctx.fillRect(
         CLOUD_X + COLUMN_GAP + (COLUMN_GAP + BAR_WIDTH) * i,
@@ -102,18 +98,18 @@ window.renderStatistics = function (ctx, names, times) {
         (BAR_HEIGHT * times[i]) / maxTime
     );
 
-    styleText(ctx);
-
-    ctx.fillText(
-        roundedTimes,
-        CLOUD_X + COLUMN_GAP + (COLUMN_GAP + BAR_WIDTH) * i,
-        CLOUD_Y + (GAP * 3.5) + (BAR_HEIGHT - ((BAR_HEIGHT * times[i]) / maxTime))
+    renderText(
+      ctx,
+      roundedTimes,
+      COLUMN_GAP + (COLUMN_GAP + BAR_WIDTH) * i,
+      (GAP * 3.5) + (BAR_HEIGHT - ((BAR_HEIGHT * times[i]) / maxTime))
     );
 
-    ctx.fillText(
-        names[i],
-        CLOUD_X + COLUMN_GAP + (COLUMN_GAP + BAR_WIDTH) * i,
-        CLOUD_Y + (GAP * 5) + BAR_HEIGHT
+    renderText(
+      ctx,
+      names[i],
+      COLUMN_GAP + (COLUMN_GAP + BAR_WIDTH) * i,
+      (GAP * 5) + BAR_HEIGHT
     );
   }
 };
