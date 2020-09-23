@@ -11,6 +11,9 @@ const CLOAKS = [
   `rgb(0, 0, 0)`
 ];
 const EYES = [`black`, `red`, `blue`, `yellow`, `green`];
+const WIZARD_NUMBER = 4;
+
+const wizards = [];
 
 const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 const getWizardName = () => NAMES[getRandomNumber(0, NAMES.length)] + ` ` + SURNAMES[getRandomNumber(0, SURNAMES.length)];
@@ -18,5 +21,17 @@ const getWizardCloak = () => CLOAKS[getRandomNumber(0, CLOAKS.length)];
 const getWIzardEyes = () => EYES[getRandomNumber(0, EYES.length)];
 
 const createWizard = function () {
+  const wizard = {
+    name: getWizardName(),
+    coatColor: getWizardCloak(),
+    eyeColor: getWIzardEyes()
+  }
 
+  return wizard;
 };
+
+for (let i = 0; i < WIZARD_NUMBER; i++) {
+  wizards.push(createWizard());
+};
+
+console.log(wizards);
