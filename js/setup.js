@@ -1,4 +1,4 @@
-`use strict`;
+'use strict';
 
 const NAMES = [`Иван`, `Хуан Себастьян`, `Мария`, `Кристоф`, `Виктор`, `Юлия`, `Люпита`, `Вашингтон`];
 const SURNAMES = [`да Марья`, `Верон`, `Мирабелла`, `Вальц`, `Онопко`, `Топольницкая`, `Нионго`, `Ирвинг`];
@@ -28,16 +28,16 @@ const createWizard = function () {
     name: getWizardName(),
     coatColor: getWizardCloak(),
     eyeColor: getWIzardEyes()
-  }
+  };
 
   return wizard;
 };
 
 for (let i = 0; i < WIZARD_NUMBER; i++) {
   wizards.push(createWizard());
-};
+}
 
-const renderWizard = function(wizard) {
+const renderWizard = function (wizard) {
   const wizardElement = similarWizardTemplate.cloneNode(true);
 
   wizardElement.querySelector(`.wizard-coat`).style.fill = wizard.coatColor;
@@ -45,7 +45,7 @@ const renderWizard = function(wizard) {
   wizardElement.querySelector(`.setup-similar-label`).textContent = wizard.name;
 
   return wizardElement;
-}
+};
 
 for (let i = 0; i < wizards.length; i++) {
   fragment.appendChild(renderWizard(wizards[i]));
