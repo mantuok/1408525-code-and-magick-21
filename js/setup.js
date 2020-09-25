@@ -13,31 +13,31 @@ const CLOAKS = [
 const EYES = [`black`, `red`, `blue`, `yellow`, `green`];
 const WIZARD_NUMBER = 4;
 
-const wizards = [];
 const similarWizardTemplate = document.querySelector(`#similar-wizard-template`).content.querySelector(`.setup-similar-item`);
 const setupSimilarList = document.querySelector(`.setup-similar-list`);
-const fragment = document.createDocumentFragment();
 const userDialog = document.querySelector(`.setup`);
 
-const getWizardName = () => NAMES[getRandomNumber(0, NAMES.length)] + ` ` + SURNAMES[getRandomNumber(0, SURNAMES.length)];
-const getWizardCloak = () => CLOAKS[getRandomNumber(0, CLOAKS.length)];
-const getWIzardEyes = () => EYES[getRandomNumber(0, EYES.length)];
+const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
-const createWizard = function () {
-  const wizard = {
-    name: getWizardName(),
-    coatColor: getWizardCloak(),
-    eyeColor: getWIzardEyes()
-  };
+const getRandomElement = (arr) => arr[getRandomNumber(0, arr.length - 1)];
 
-  return wizard;
-};
+const createWizard = () => ({
+    name: getRandomElement(NAMES) + ` ` + getRandomElement(SURNAMES),
+    coatColor: getRandomElement(CLOAKS),
+    eyeColor: getRandomElement(EYES)
+});
 
-for (let i = 0; i < WIZARD_NUMBER; i++) {
-  wizards.push(createWizard());
+const createWizardArray = () => {
+  const wizards = [];
+
+  for (let i = 0; i < WIZARD_NUMBER; i++) {
+    wizards.push(createWizard());
+  }
+
+  return wizards;
 }
 
-const renderWizard = function (wizard) {
+const renderWizard = (wizard) => {
   const wizardElement = similarWizardTemplate.cloneNode(true);
 
   wizardElement.querySelector(`.wizard-coat`).style.fill = wizard.coatColor;
@@ -47,11 +47,13 @@ const renderWizard = function (wizard) {
   return wizardElement;
 };
 
-for (let i = 0; i < wizards.length; i++) {
-  fragment.appendChild(renderWizard(wizards[i]));
+const renderWizards = () => {
+  const fragment = document.createDocumentFragment();
+  createWizardArray().map(renderWizard).forEach(renderedWizard => fragment.appendChild(renderedWizard));
+  setupSimilarList.appendChild(fragment);
 }
 
-setupSimilarList.appendChild(fragment);
+renderWizards();
 
 userDialog.classList.remove(`hidden`);
 userDialog.querySelector(`.setup-similar`).classList.remove(`hidden`);
