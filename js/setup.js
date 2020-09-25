@@ -22,9 +22,9 @@ const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min)) + 
 const getRandomElement = (arr) => arr[getRandomNumber(0, arr.length - 1)];
 
 const createWizard = () => ({
-    name: getRandomElement(NAMES) + ` ` + getRandomElement(SURNAMES),
-    coatColor: getRandomElement(CLOAKS),
-    eyeColor: getRandomElement(EYES)
+  name: getRandomElement(NAMES) + ` ` + getRandomElement(SURNAMES),
+  coatColor: getRandomElement(CLOAKS),
+  eyeColor: getRandomElement(EYES)
 });
 
 const createWizardArray = () => {
@@ -35,7 +35,7 @@ const createWizardArray = () => {
   }
 
   return wizards;
-}
+};
 
 const renderWizard = (wizard) => {
   const wizardElement = similarWizardTemplate.cloneNode(true);
@@ -49,9 +49,9 @@ const renderWizard = (wizard) => {
 
 const renderWizards = () => {
   const fragment = document.createDocumentFragment();
-  createWizardArray().map(renderWizard).forEach(renderedWizard => fragment.appendChild(renderedWizard));
+  createWizardArray().map(renderWizard).forEach((renderedWizard) => fragment.appendChild(renderedWizard));
   setupSimilarList.appendChild(fragment);
-}
+};
 
 renderWizards();
 
