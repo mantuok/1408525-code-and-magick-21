@@ -16,8 +16,46 @@ const WIZARD_NUMBER = 4;
 const similarWizardTemplate = document.querySelector(`#similar-wizard-template`).content.querySelector(`.setup-similar-item`);
 const setupSimilarList = document.querySelector(`.setup-similar-list`);
 const userDialog = document.querySelector(`.setup`);
+const setupOpen = document.querySelector(`.setup-open`);
+const setupClose = userDialog.querySelector(`.setup-close`);
 
-const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+const onEscClick = (evt) => {
+  if (evt.key === `Escape`) {
+    evt.preventDefault;
+    closePopup();
+  }
+};
+
+const onEnterClick = (evt) => (evt.key == `Enter`) && openPopup();
+
+const openPopup = () => {
+  userDialog.classList.remove(`hidden`);
+  document.addEventListener(`keydown`, onEscClick);
+};
+
+const closePopup = () => {
+  userDialog.classList.add(`hidden`);
+  document.removeEventListener(`keydown`, onEscClick);
+};
+
+setupOpen.addEventListener(`click`, function() {
+  openPopup();
+});
+
+setupOpen.addEventListener(`keydown`, function(evt) {
+  onEnterClick(evt);
+});
+
+setupClose.addEventListener(`click`, function() {
+  closePopup();
+});
+
+setupClose.addEventListener(`keydown`, function(evt) {
+  closePopup();
+})
+
+
+// const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
 const getRandomElement = (arr) => arr[getRandomNumber(0, arr.length - 1)];
 
@@ -55,5 +93,4 @@ const renderWizards = () => {
 
 renderWizards();
 
-userDialog.classList.remove(`hidden`);
 userDialog.querySelector(`.setup-similar`).classList.remove(`hidden`);
