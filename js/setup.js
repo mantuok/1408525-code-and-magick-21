@@ -1,5 +1,7 @@
 'use strict';
 
+const NAME_LENGTH_MIN = 2;
+const NAME_LENGTH_MAX = 25;
 const NAMES = [`Иван`, `Хуан Себастьян`, `Мария`, `Кристоф`, `Виктор`, `Юлия`, `Люпита`, `Вашингтон`];
 const SURNAMES = [`да Марья`, `Верон`, `Мирабелла`, `Вальц`, `Онопко`, `Топольницкая`, `Нионго`, `Ирвинг`];
 const CLOAKS = [
@@ -18,6 +20,7 @@ const setupSimilarList = document.querySelector(`.setup-similar-list`);
 const userDialog = document.querySelector(`.setup`);
 const setupOpen = document.querySelector(`.setup-open`);
 const setupClose = userDialog.querySelector(`.setup-close`);
+const userNameInput = userDialog.querySelector(`.setup-user-name`);
 
 const onEscClick = (evt) => {
   if (evt.key === `Escape`) {
@@ -51,9 +54,22 @@ setupClose.addEventListener(`click`, function() {
 });
 
 setupClose.addEventListener(`keydown`, function(evt) {
-  closePopup();
-})
+  closePopup(evt);
+});
 
+userNameInput.addEventListener(`input`, function() {
+  const valueLength = userNameInput.value.length;
+
+  if (valueLength < NAME_LENGTH_MIN) {
+    userNameInput.setCustomValidity(`Необходимо ввести еще ` + (NAME_LENGTH_MIN - valueLength) + ` сим.`);
+  } else if (valueLength > NAME_LENGTH_MAX) {
+    userNameInput.setCustomValidity(`Необходимо удалить лишние ` + (valueLength - NAME_LENGTH_MAX) + ` сим.`);
+  } else {
+    userNameInput.setCustomValidity(``);
+  }
+
+  userNameInput.reportValidity();
+});
 
 // const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
