@@ -28,55 +28,22 @@ const wizardEyes = userDialog.querySelector(`.wizard-eyes`);
 const wizardEyesInput = userDialog.querySelector(`[name='eyes-color']`);
 const wizardFireball = userDialog.querySelector(`.setup-fireball-wrap`);
 const wizardFireballInput = userDialog.querySelector(`[name='fireball-color']`);
-
-const onEscClick = (evt) => {
-  if (evt.key === `Escape`) {
-    evt.preventDefault();
-    closePopup();
-  }
+const Key = {
+  ESC: `Escape`,
+  ENTER: `Enter`
 };
 
-const onEnterClick = (evt) => (evt.key === `Enter`) && openPopup();
+const invokeIfKeyIs = (key, cb) => (evt) => evt.key === key && cb(evt);
 
 const openPopup = () => {
   userDialog.classList.remove(`hidden`);
-  document.addEventListener(`keydown`, onEscClick);
+  document.addEventListener(`keydown`, invokeIfKeyIs(Key.ESC, closePopup));
 };
 
 const closePopup = () => {
   userDialog.classList.add(`hidden`);
-  document.removeEventListener(`keydown`, onEscClick);
+  document.removeEventListener(`keydown`, invokeIfKeyIs(Key.ESC, closePopup));
 };
-
-setupOpen.addEventListener(`click`, function () {
-  openPopup();
-});
-
-setupOpen.addEventListener(`keydown`, function (evt) {
-  onEnterClick(evt);
-});
-
-setupClose.addEventListener(`click`, function () {
-  closePopup();
-});
-
-setupClose.addEventListener(`keydown`, function (evt) {
-  closePopup(evt);
-});
-
-userNameInput.addEventListener(`input`, function () {
-  const valueLength = userNameInput.value.length;
-
-  if (valueLength < NAME_LENGTH_MIN) {
-    userNameInput.setCustomValidity(`Необходимо ввести еще ` + (NAME_LENGTH_MIN - valueLength) + ` сим.`);
-  } else if (valueLength > NAME_LENGTH_MAX) {
-    userNameInput.setCustomValidity(`Необходимо удалить лишние ` + (valueLength - NAME_LENGTH_MAX) + ` сим.`);
-  } else {
-    userNameInput.setCustomValidity(``);
-  }
-
-  userNameInput.reportValidity();
-});
 
 const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
@@ -87,18 +54,6 @@ const changeElementColor = (arr, element, elementInput, property) => {
 };
 
 const getRandomElement = (arr) => arr[getRandomNumber(0, arr.length - 1)];
-
-wizardCoat.addEventListener(`click`, function () {
-  changeElementColor(COATS, wizardCoat, wizardCoatInput, `fill`);
-});
-
-wizardEyes.addEventListener(`click`, function () {
-  changeElementColor(EYES, wizardEyes, wizardEyesInput, `fill`);
-});
-
-wizardFireball.addEventListener(`click`, function () {
-  changeElementColor(FIREBALLS, wizardFireball, wizardFireballInput, `background`);
-});
 
 const createWizard = () => ({
   name: getRandomElement(NAMES) + ` ` + getRandomElement(SURNAMES),
@@ -131,6 +86,40 @@ const renderWizards = () => {
   createWizardArray().map(renderWizard).forEach((renderedWizard) => fragment.appendChild(renderedWizard));
   setupSimilarList.appendChild(fragment);
 };
+
+setupOpen.addEventListener(`click`, openPopup);
+
+setupOpen.addEventListener(`keydown`, invokeIfKeyIs(Key.ENTER, openPopup));
+
+setupClose.addEventListener(`click`, closePopup);
+
+setupClose.addEventListener(`keydown`, invokeIfKeyIs(Key.ENTER, closePopup));
+
+userNameInput.addEventListener(`input`, function () {
+  const valueLength = userNameInput.value.length;
+
+  if (valueLength < NAME_LENGTH_MIN) {
+    userNameInput.setCustomValidity(`Необходимо ввести еще ` + (NAME_LENGTH_MIN - valueLength) + ` сим.`);
+  } else if (valueLength > NAME_LENGTH_MAX) {
+    userNameInput.setCustomValidity(`Необходимо удалить лишние ` + (valueLength - NAME_LENGTH_MAX) + ` сим.`);
+  } else {
+    userNameInput.setCustomValidity(``);
+  }
+
+  userNameInput.reportValidity();
+});
+
+wizardCoat.addEventListener(`click`, function () {
+  changeElementColor(COATS, wizardCoat, wizardCoatInput, `fill`);
+});
+
+wizardEyes.addEventListener(`click`, function () {
+  changeElementColor(EYES, wizardEyes, wizardEyesInput, `fill`);
+});
+
+wizardFireball.addEventListener(`click`, function () {
+  changeElementColor(FIREBALLS, wizardFireball, wizardFireballInput, `background`);
+});
 
 renderWizards();
 
