@@ -49,7 +49,7 @@
     window.utils.changeElementColor(FIREBALLS, wizardFireball, wizardFireballInput, `background`);
   });
 
-  window.similarWizards.render();
+  // window.similarWizards.render();
 
   userDialog.querySelector(`.setup-similar`).classList.remove(`hidden`);
 })();
