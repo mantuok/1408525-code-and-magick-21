@@ -30,4 +30,9 @@
   setupOpen.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ENTER, openPopup));
   setupClose.addEventListener(`click`, closePopup);
   setupClose.addEventListener(`keydown`, window.utils.invokeIfKeyIs(Key.ENTER, closePopup));
+
+  window.setupPopup = {
+    open: openPopup,
+    close: closePopup
+  }
 })();

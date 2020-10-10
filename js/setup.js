@@ -15,6 +15,7 @@
   const FIREBALLS = [`#ee4830`, `#30a8ee`, `#5ce6c0`, `#e848d5`, `#e6e848`];
 
   const userDialog = document.querySelector(`.setup`);
+  const setupForm = document. querySelector(`.setup-wizard-form`)
   const userNameInput = userDialog.querySelector(`.setup-user-name`);
   const wizardCoat = userDialog.querySelector(`.wizard-coat`);
   const wizardCoatInput = userDialog.querySelector(`[name='coat-color']`);
@@ -49,7 +50,13 @@
     window.utils.changeElementColor(FIREBALLS, wizardFireball, wizardFireballInput, `background`);
   });
 
-  // window.similarWizards.render();
-
   userDialog.querySelector(`.setup-similar`).classList.remove(`hidden`);
+
+  setupForm.addEventListener(`submit`, function (evt) {
+    window.backend.save(function (response) {
+      window.setupPopup.close();
+    }, new FormData(setupForm)
+    );
+    evt.preventDefault();
+  });
 })();
