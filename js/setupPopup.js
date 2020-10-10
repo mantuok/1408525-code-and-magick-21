@@ -34,5 +34,5 @@
   window.setupPopup = {
     open: openPopup,
     close: closePopup
-  }
+  };
 })();

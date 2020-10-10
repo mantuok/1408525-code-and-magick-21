@@ -5,7 +5,7 @@
   const similarWizardTemplate = document.querySelector(`#similar-wizard-template`).content.querySelector(`.setup-similar-item`);
   const setupSimilarList = document.querySelector(`.setup-similar-list`);
 
-  const createWizardArray = (wizards) => window.utils.shuffleArray(wizards).slice(0, 4);
+  const createWizardArray = (wizards) => window.utils.shuffleArray(wizards).slice(0, WIZARD_NUMBER);
 
   const renderWizard = (wizard) => {
     const wizardElement = similarWizardTemplate.cloneNode(true);
@@ -15,9 +15,9 @@
     return wizardElement;
   };
 
-  window.backend.load (function (wizards) {
+  window.backend.load(function (wizards) {
     const fragment = document.createDocumentFragment();
     createWizardArray(wizards).map(renderWizard).forEach((renderedWizard) => fragment.appendChild(renderedWizard));
     setupSimilarList.appendChild(fragment);
-  })
+  }, window.utils.errorHandler);
 })();

@@ -15,13 +15,24 @@
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
     return arr;
-  }
+  };
+  const errorHandler = (errorMessage) => {
+    const node = document.createElement(`div`);
+    node.style = `z-index: 10; margin: 0 auto; padding: 50px; text-align: center; color: red; background-color: blue`;
+    node.style.position = `absolute`;
+    node.style.top = 0;
+    node.style.left = 0;
+    node.style.fontSize = `24px`;
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement(`afterbegin`, node);
+  };
 
   window.utils = {
     invokeIfKeyIs,
     getRandomNumber,
     getRandomElement,
     changeElementColor,
-    shuffleArray
+    shuffleArray,
+    errorHandler
   };
 })();
